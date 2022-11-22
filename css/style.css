@@ -1,0 +1,178 @@
+:root {
+	--background-color: #101f61;
+	--foreground-color: #1d38ad;
+	--shadow-color: #505363;
+	--font-color: #000;
+	--font-light-color: #fff;
+
+	--shadow: rgba(44, 44, 92, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+		rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+/* * - selektor biorący pod uwagę wszystko! */
+* {
+	/* jeśli coś się rozjeżdza na stronie - użyj box sizing */
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Ubuntu', sans-serif;
+	background-color: var(--background-color);
+	/* usuń domyślny margines body */
+	margin: 0;
+}
+
+img {
+	height: 150px;
+	width: 250px;
+}
+
+nav {
+	background-color: var(--foreground-color);
+	box-shadow: var(--shadow);
+	display: flex; /* ustawia dzieci jeden obok drugiego */
+	justify-content: space-between; /* dodaje przestrzeń pomiędzy dziećmi na osi X */
+	align-items: center; /* ustawia dzieci na środku osi Y */
+
+	position: sticky; /* przykleja się do ekranu jeśli jest spełniony warunek */
+	top: 0; /* warunek przyklejania się poz. sticky */
+
+	padding: 0;
+}
+
+/* wszystkie tagi "a" mające "nav"a jako przodka */
+nav a {
+	color: var(--font-light-color);
+	text-decoration: none;
+}
+
+nav a h1 {
+	padding: 0; /* przesrzeń pomiędzy treścią elementu a jego granicą (border) */
+	margin: 0; /* przestrzeń wokół granic elementu */
+}
+
+nav ul {
+	background-color: var(--shadow-color);
+	list-style: none; /* usuwa markery ( kółeczka przed elementem) */
+	margin: 0;
+	padding: 0;
+
+	/* WŁAŚCIWOŚCI HAMBURGERA */
+	position: fixed; /* przykleja się na stałe do ekranu */
+	width: 40vw; /* szerkość to 40% szerokości okna przeglądarki */
+	right: calc(
+		-40vw - 2px
+	); /* odsuwamy w prawo od prawej krawędzi strony o obliczoną ilość (szerokość elementu - border) (ukrywamy go) */
+	/* top:4rem; odsuwamy menu od góry */
+	top: calc(2em + 20px); /* odsuń menu od góry o wielkość labela z marginesem */
+	height: calc(100vh - (2em + 20px)); /* ustaw wysokość, aby zajmowała cały ekran poza odsunięciem z góry */
+	transition: 0.5s;
+}
+
+nav ul li {
+	color: var(--font-light-color);
+	text-align: right;
+	/* top right bottom left */
+	/* margin:5px 10px 5px 10px; */
+	/*      y   x   */
+	padding: 5px 10px;
+	margin: 10px;
+}
+
+/* HAMBURGER ELEMENTS */
+nav label {
+	border: 2px solid var(--font-light-color);
+	border-radius: 5px;
+	width: 2em; /* rozmiar większy od czcionki H1 */
+	height: 2em; /* taki sam rozmiar robi kwadrat */
+	margin: 10px 0;
+	position: relative; /* utrzymuje potomków z pozycjami absolutnymi */
+	cursor: pointer; /* po nakierowaniu myszą pokazuje rączkę */
+}
+
+nav label div {
+	/* style dla wszytkich kresek w hamburgerze ( wspólne ) */
+	height: 3px;
+	border-radius: 3px; /* zaokrąglenie krawędzi */
+	background-color: var(--font-light-color);
+	position: absolute; /* uniezależniamy się od rodzeństwa i dostosowujemy się do najbliższego przodka nie będącego w pozyji statyznej */
+	width: 80%; /* szerokość na 80% RODZICA */
+	left: 10%; /* odsuwamy od lewej strony o 10% szerokości RODZICA */
+	transition: 0.3s; /* jeśli element będzie się zmieniał (odwracał), niech trwa mu to pół sekundy (.5 = 0.5) */
+}
+/* Każda z kresek hamburgera osobno: */
+/* nth-child - określa dziecko po indexie ( kolejności pojawienia się w dokumencie ) */
+nav label div:nth-child(1) {
+	top: calc(25% - 1.5px);
+}
+
+nav label div:nth-child(2) {
+	top: calc(
+		50% - 1.5px
+	); /* ustawiamy środek elementu na środku rodzica ( w osi Y ) (1.5px to połowa wysokości kreski )*/
+}
+
+nav label div:nth-child(3) {
+	top: calc(75% - 1.5px);
+}
+
+/* jeśli odnosimy się do elemetu HTML z ID, to używamy "#"  */
+#toggler {
+	display: none; /* element jest na stronie, ale jest niewidoczny i nie wpływa na inne elementy */
+}
+
+/* #toggler:checked ~ - może wpłynąć na rodzeństwo togglera  renderujące się po nim, w momencie kiedy jest zaznazony  */
+#toggler:checked ~ ul {
+	/* zmienamy styl "ul" tylko wtedy, kiedy toggler jest włączony  */
+	right: 0; /* przyklej go do prawej krawędzi strony */
+}
+/* poierwsze dziecko labela przy włączonym togglerze */
+#toggler:checked ~ label div:nth-child(1) {
+	transform: rotate(45deg); /* obrót elementu o 45 stopni */
+	top: calc(50% - 1.5px);
+}
+
+#toggler:checked ~ label div:nth-child(2) {
+	opacity: 0; /* zmieniamy widoczność elementu na 0 (niewidoczny), wartość 1 daje widoczność maksymalną */
+}
+
+#toggler:checked ~ label div:nth-child(3) {
+	transform: rotate(135deg);
+	top: calc(50% - 1.5px);
+}
+
+.carousel-section {
+	border: 2px dashed red;
+}
+
+.carousel-section > header {
+	border: 2px dashed rgb(38, 169, 38);
+}
+
+footer {
+	border: 2px dashed teal;
+	margin-top: 200vh;
+}
+
+/* wyświetlanie na komputerze */
+@media (min-width: 768px) {
+	nav {
+		padding: 1.5rem 3rem;
+	}
+
+	nav label {
+		display: none;
+	}
+
+	nav ul {
+		position: static;
+		width: unset;
+		height: unset;
+		display: flex;
+		background-color: transparent;
+	}
+
+	nav ul li {
+		margin: 0;
+	}
+}
